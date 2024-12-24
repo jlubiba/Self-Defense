@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 app_name = "blog"
 
-router = DefaultRouter(Trailing_slash=False)
+router = DefaultRouter(trailing_slash=False)
 # router.register = (r"blogs", views.xyz,basename="blogs")
 # router.register = (r"blogs/tags", views.xyz,basename="tags")
 # router.register = (r"blogs/tags/<int:tagId>", views.xyz,basename="tag")
