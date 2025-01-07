@@ -49,7 +49,7 @@ class SubCategory(AddedElement):
     def __str__(self):
         return self.name
     
-class Target(Moves):
+class Target(AddedElement):
     name = models.CharField(max_length=150)
     body_level = models.CharField(max_length=50, choices=body_level)
     reason = models.CharField(max_length=250)
@@ -87,7 +87,7 @@ class TextTutorial(AddedElement):
         return self.name
 
 class VideoTutorial(AddedElement):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="videos")
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="videos", default="pending")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='static/images/tutorials')
     url = models.URLField()
