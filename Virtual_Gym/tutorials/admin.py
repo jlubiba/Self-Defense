@@ -2,11 +2,15 @@ from django.contrib import admin
 from .models import Category, SubCategory, Target, Technique, Combo, Tag, TextTutorial, VideoTutorial
 
 # Register your models here.
-admin.site.register(Category)
-admin.site.register(SubCategory)
-admin.site.register(Target)
-admin.site.register(Technique)
-admin.site.register(Combo)
-admin.site.register(Tag)
-admin.site.register(TextTutorial)
-admin.site.register(VideoTutorial)
+
+class AutoSlugAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug":("name",)}
+
+admin.site.register(Category, AutoSlugAdmin)
+admin.site.register(SubCategory, AutoSlugAdmin)
+admin.site.register(Target, AutoSlugAdmin)
+admin.site.register(Technique, AutoSlugAdmin)
+admin.site.register(Combo, AutoSlugAdmin)
+admin.site.register(Tag, AutoSlugAdmin)
+admin.site.register(TextTutorial, AutoSlugAdmin)
+admin.site.register(VideoTutorial, AutoSlugAdmin)

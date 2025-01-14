@@ -4,13 +4,13 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 action_types = [('offense', 'Offense'), ('defense', 'Defense'), ('offense & defense', 'Offense & Defense')]
-body_level = [('upper', 'Upper'), ('lower', 'Lower'), ('head', 'Head'), ('full-body', 'Full-body')]
+body_level = [('upper-body', 'Upper-body'), ('lower-body', 'Lower-body'), ('head', 'Head'), ('full-body', 'Full-body')]
 difficty_level = [('novice', 'Novice'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')]
 
-
+#Abstract model classes that well feel the other model with reused fields
 class AddedElement(models.Model):
-    slug = models.SlugField()
     name = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
     
@@ -25,16 +25,27 @@ class Moves(AddedElement):
     class Meta:
         abstract = True
 
+# Models for the app
 class Category(AddedElement):
     description = models.CharField(max_length=250)
     added_by= models.ForeignKey(User, on_delete=models.PROTECT,
                                 related_name='tutorials_category_added_by')
+    
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.added_by = request.user
+        super().save_model(request, obj, form, change)
     
     def __str__(self):
         return self.name
 
 class Tag(AddedElement):
     added_by= models.ForeignKey(User, on_delete=models.PROTECT)
+    
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.added_by = request.user
+        super().save_model(request, obj, form, change)
     
     def __str__(self):
         return self.name
@@ -46,11 +57,15 @@ class SubCategory(AddedElement):
     added_by= models.ForeignKey(User, on_delete=models.PROTECT,
                                 related_name='tutorials_subcategory_added_by')
     
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.added_by = request.user
+        super().save_model(request, obj, form, change)
+    
     def __str__(self):
         return self.name
     
 class Target(AddedElement):
-    name = models.CharField(max_length=150)
     body_level = models.CharField(max_length=50, choices=body_level)
     reason = models.CharField(max_length=250)
     
@@ -58,7 +73,6 @@ class Target(AddedElement):
         return self.name
     
 class Technique(Moves):
-    name = models.CharField(max_length=150)
     steps = models.TextField()
     application = models.CharField(max_length=250)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,
@@ -69,7 +83,6 @@ class Technique(Moves):
         return self.name
     
 class Combo(Moves):
-    name = models.CharField(max_length=150)
     description = models.CharField(max_length=250, default='A cool combo!')
     technique = models.ManyToManyField(Technique, related_name='technique')
     target = models.ManyToManyField(Target, related_name='tutorials_combo_target')
@@ -87,7 +100,7 @@ class TextTutorial(AddedElement):
         return self.name
 
 class VideoTutorial(AddedElement):
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="videos", default="pending")
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="videos")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='static/images/tutorials')
     url = models.URLField()
