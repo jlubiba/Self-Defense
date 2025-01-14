@@ -135,3 +135,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DJOSER = {
     "USER_ID_FIELD":"username",
 }
+
+REST_FRAMRWORK = {
+    "DEFAULT_RENDERER_CLASSES":[
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableRenderer',
+        'rest_framework.renderers.XMLRenderer',
+        'rest_framework.renderers.YAMLRenderer',
+    ],
+    "DEFAULT_FILTER_BACKENDS":[
+        'django_filters.rest_framework.DjangofilterBackend'
+        'rest_framework.filters.OrderFilter', 
+        'rest_framework.filters.SearchFilter', 
+    ],
+    "DEFAULT_PAGINATION_CLASS":'rest_framework.pagination.pageNumberPagination',
+    "PAGE_SIZE":6,
+}

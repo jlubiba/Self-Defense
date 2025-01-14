@@ -5,21 +5,19 @@ from rest_framework.routers import DefaultRouter
 app_name = "tutorials"
 
 urlpatterns = [
-    path("", views.index, name="home")
+    path("", views.index, name="home"),
+    path("test", views.test, name="test"),
+    path("technique", views.TechniqueGenerator, name="technique"),
 ]
 
 router = DefaultRouter(trailing_slash = False)
-# router.register(r"tutorials", views.xyz,basename="tutorials")
-# router.register(r"tutorials/tags", views.xyz,basename="tags")
-# router.register(r"tutorials/tags/<int:tagId>", views.xyz,basename="tag")
-router.register(r"tutorials/categories", views.category, basename="categories")
-# router.register(r"tutorials/categories/<int:categoryId>", views.xyz,basename="category")
-# router.register(r"tutorials/videos", views.xyz,basename="videos")
-# router.register(r"tutorials/videos/<int:videoId>", views.xyz,basename="video")
-# router.register(r"tutorials/authors", views.xyz,basename="categories")
-# router.register(r"tutorials/authors/<int:authorId>", views.xyz,basename="author")
-# router.register(r"tutorials/favorite", views.xyz,basename="favorite-tutorials")
-# router.register(r"tutorials/favorite/<int:tutorialId>", views.xyz,basename="favorite-tutorial")
-# router.register(r"tutorials/<int:tutorialId>", views.xyz,basename="tutorial")
+router.register(r"tags", views.tag,basename="tags")
+router.register(r"categories", views.category, basename="categories")
+router.register(r"subcategories", views.subCategory, basename="sub-categories")
+router.register(r"videos", views.videoTutotial,basename="videos")
+router.register(r"texts", views.textTutorial,basename="texts")
+router.register(r"targets", views.target,basename="targets")
+router.register(r"combos", views.combo,basename="combos")
+router.register(r"techniques", views.technique,basename="techniques")
 
 urlpatterns += router.urls
