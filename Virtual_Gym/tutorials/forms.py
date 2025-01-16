@@ -6,6 +6,7 @@ class categoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -23,6 +24,7 @@ class tagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -39,6 +41,7 @@ class subCategoryForm(forms.ModelForm):
     class Meta:
         model = SubCategory
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -58,6 +61,7 @@ class targetForm(forms.ModelForm):
     class Meta:
         model = Target
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -77,6 +81,7 @@ class techniqueForm(forms.ModelForm):
     class Meta:
         model = Technique
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -99,6 +104,7 @@ class comboForm(forms.ModelForm):
     class Meta:
         model = Combo
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -118,6 +124,7 @@ class textTutorialForm(forms.ModelForm):
     class Meta:
         model = TextTutorial
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -137,6 +144,7 @@ class videoTutorialForm(forms.ModelForm):
     class Meta:
         model = VideoTutorial
         fields = "__all__"
+        exclude = ("slug",)
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
