@@ -22,5 +22,22 @@
             <input type="submit">
         </form>
     </fieldset>
+    <script>
+        // Here the code to fetch the elements that are going to come from the database
+
+
+        // The  functions that will be triggered when the filters are set in motion, still have to do with the database
+        function techniquepractice(){
+            // Retrieve the variables from the database
+            var i = 0
+            setTimeout(function(){
+                console.log('Hi')
+                i ++;
+                if (i<10){
+                    techniquepractice();
+                }
+            }, 3000)
+        }
+    </script>
 </body>
 </html>

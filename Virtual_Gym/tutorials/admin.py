@@ -3,6 +3,7 @@ from .models import Category, SubCategory, Target, Technique, Combo, Tag, TextTu
 
 # Register your models here.
 
+# This makes it such that when the 'name' field is being filled, the 'slug' field is automatically field at the same time when done in the admin panel.
 class AutoSlugAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("name",)}
 

@@ -40,6 +40,8 @@ class Tag(AddedElement):
 class SubCategory(AddedElement):
     description = models.CharField(max_length=250)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    added_by= models.ForeignKey(User, on_delete=models.PROTECT,
+                                related_name='blog_subcategory_added_by', null=True)
     
     def save(self, request, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -68,6 +70,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                                 related_name='blog_comment_added_by')
     text = RichTextField(max_length=750)
+    slug = models.SlugField(unique=True, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True, null=True)
+    update_date = models.DateTimeField(auto_now=True, blank=True)
     
     def save(self, request, *args, **kwargs):
         self.slug = slugify(self.name)
