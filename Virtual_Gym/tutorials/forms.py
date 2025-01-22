@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 import bleach
+from django.forms import Textarea
 
 class categoryForm(forms.ModelForm):
     class Meta:
@@ -78,10 +79,14 @@ class targetForm(forms.ModelForm):
         return super().validate(attrs)
 
 class techniqueForm(forms.ModelForm):
+    target = forms.ModelMultipleChoiceField(queryset=Target.objects.all(), widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Technique
         fields = "__all__"
         exclude = ("slug",)
+        widgets = {
+            "application": Textarea(attrs={"col":80, "row":20}),
+        }
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -101,6 +106,8 @@ class techniqueForm(forms.ModelForm):
         return super().validate(attrs)
         
 class comboForm(forms.ModelForm):
+    target = forms.ModelMultipleChoiceField(queryset=Target.objects.all(), widget=forms.CheckboxSelectMultiple)
+    technique = forms.ModelMultipleChoiceField(queryset=Technique.objects.all(), widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Combo
         fields = "__all__"
@@ -121,6 +128,7 @@ class comboForm(forms.ModelForm):
         return super().validate(attrs)
 
 class textTutorialForm(forms.ModelForm):
+    tag = forms.ModelMultipleChoiceField(queryset=TextTutorial.objects.all(), widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = TextTutorial
         fields = "__all__"

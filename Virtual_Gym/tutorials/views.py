@@ -29,8 +29,9 @@ def test(request):
 
 @api_view()
 def TechniqueGenerator(request, *args, **kwargs):
-    items = Technique.objects.prefetch_related('target').select_related('sub_category').filter(*args, **kwargs)
+    items = Technique.objects.prefetch_related('target').select_related('sub_category').all()
     category_name = request.query_params.get('category')
+    technique_name = request.query_params.get('technique')
     subcategory_name = request.query_params.get('subcategory')
     target_name = request.query_params.get('target')
     target_level = request.query_params.get('target-level')
@@ -40,26 +41,41 @@ def TechniqueGenerator(request, *args, **kwargs):
     ordering = request.query_params.get('ordering')
     
     if category_name:
-        items = items.filter(category__name=category_name)
+        category_name_fields = technique_name.split(',')
+        items = items.filter(category__name__in= [*category_name_fields])
     if subcategory_name:
-        items = items.filter(subcategory__name=subcategory_name)
+        subcategory_name_fields = subcategory_name.split(',')
+        items = items.filter(subcategory__name__in= [*subcategory_name_fields])
     if action_types:
-        items = items.filter(action_types=action_types)
+        action_types_fields = action_types.split(',')
+        items = items.filter(action_types__in= [*action_types_fields])
     if body_level:
-        items = items.filter(body_level=body_level)
+        body_level_fields = body_level.split(',')
+        items = items.filter(body_level__in= [*body_level_fields])
     if difficty_level:
-        items = items.filter(difficty_level=difficty_level)
-    if category_name:
-        items = items.filter(category__name=category_name)
+        difficty_level_fields = difficty_level.split(',')
+        items = items.filter(difficty_level__in= [*difficty_level_fields])
     if target_name:
-        items = items.filter(target__name=target_name)
+        target_name_fields = target_name.split(',')
+        items = items.filter(target__in= [*target_name_fields])
     if target_level:
-        items = items.filter(target__body_level=target_level)
+        target_level_fields = target_level.split(',')
+        items = items.filter(target__body_level__in= [*target_level_fields])
+    if technique_name:
+        technique_name_fields = technique_name.split(',')
+        items = items.filter(name__in= [*technique_name_fields])
+        print(items)
     if ordering:
         ordering_fields = ordering.split(',')
         items = items.order_by(*ordering_fields)
     
-    
+    for i in items:
+        print('-----------')
+        print(i)
+        print(i.application)
+        print(i.action_types)
+        print('-----------')
+        
     serialized_data = TechniqueSerializer(items, many=True)
         
     return Response(serialized_data.data)

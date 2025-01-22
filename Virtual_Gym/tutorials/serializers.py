@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class CategorySerializer(serializers.ModelSerializer):
-    slug = serializers.StringRelatedField(read_only=True)
+    # slug = serializers.StringRelatedField(read_only=True)
     added_by = serializers.StringRelatedField()
     last_update = serializers.DateTimeField(source='update_date', read_only=True)
     class Meta:
@@ -25,13 +25,13 @@ class SubCategorySerializer(serializers.ModelSerializer):
         fields = ["slug", "name", "description", "proper_execution", "category", "update_date", "added_by"]
 
 class TargetSerializer(serializers.ModelSerializer):
-    slug = serializers.StringRelatedField(read_only=True)
+    # slug = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Target
         fields = ["name", "body_level","reason"]
 
 class TechniqueSerializer(serializers.ModelSerializer):
-    slug = serializers.StringRelatedField(read_only=True)
+    # slug = serializers.StringRelatedField(read_only=True)
     target = serializers.StringRelatedField(read_only=True, many=True)
     class Meta:
         model = Technique

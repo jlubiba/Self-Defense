@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test form page</title>
 </head>
 <body>
     <fieldset>
         <legend>Techniques</legend>
         <form action="">
             {% csrf_token %}
-            {{techniqueform.as_p}}
-            <input type="submit">
+            {{techniqueform.as_p | safe}}
+            <button onchange="abc">Press this</button>
         </form>
     </fieldset>
     <fieldset>
@@ -19,9 +19,25 @@
         <form action="">
             {% csrf_token %}
             {{targetform.as_p}}
-            <input type="submit">
+            <button onchange="abc">Press this</button>
         </form>
     </fieldset>
+    </fieldset>
+    <fieldset>
+        <legend>Text test</legend>
+        <form action="">
+            <div>
+                <label for="testtext">
+                    <input type="text" name="test" value="" id="testtext" placeholder="Type something here...">
+            </label>
+            
+            </div>
+        </form>
+    </fieldset>
+
+    <button id="filterTechniques">Filter</button>
+    <h1 id="testing">Temporary text</h1>
+
     <script>
         // Here the code to fetch the elements that are going to come from the database
 
@@ -38,6 +54,63 @@
                 }
             }, 3000)
         }
+
+        // const ul = document.querySelector('input')
+        // let selected = [];
+
+        // ul.addEventListener('change', event => {
+        // if (event.target.type === 'checkbox') {
+        //     const checked = document.querySelectorAll('input[type="checkbox"]:checked')
+        //     selected = Array.from(checked).map(x => x.value)
+        //     console.log(selected)
+        // }
+        // })
+        const target = document.getElementById('id_target');
+        const targeth1 = document.getElementById('testing');
+        let selected = [];
+        target.style.background = 'pink';
+        target.addEventListener('click', myFunction);
+        
+        function myFunction(event) {
+            // targeth1.innerHTML = "Mouse over"
+            const checked = document.querySelectorAll('input[name="target"]:checked');
+            if (checked) {
+                selected = Array.from(checked).map(x => x.value);
+                // console.log(selected);
+                targeth1.innerHTML = selected;
+            }
+            console.log(selected);
+
+            const url = "{% url 'tutorials:technique' %}?target="+selected;
+            fetch(url,{
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                }, })
+                .then(res => res.json())
+                .then(data => {
+
+                    function changingStuff() {
+                        techniques = JSON.stringify(data);
+                        // if (techniques) {
+                        //     techniques1 = Array.from(techniques).map(x => x.value);
+                        //     // console.log("tech_name try: -----" + JSON.stringify(techniques1));
+                        //     // targeth1.innerHTML = techniques1;
+                        // }
+                        tt = []
+
+                        for (let item of data){
+                            techniques1 = tt.push(techniques.fields)
+                        }
+                        
+                        console.log("Techniques:\n" + techniques1);
+                        targeth1.innerHTML = techniques; // Get the advice portion of the API here.
+                        console.log(techniques)
+                    };
+                    changingStuff();
+                })
+        }
+
     </script>
 </body>
 </html>
