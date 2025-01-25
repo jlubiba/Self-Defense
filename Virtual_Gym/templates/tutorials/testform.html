@@ -37,6 +37,11 @@
 
     <button id="filterTechniques">Filter</button>
     <h1 id="testing">Temporary text</h1>
+    <h1 id="testing1">Temporary text</h1>
+
+    {% for technique in technique %}
+    {{technique.name}}
+    {% endfor %}
 
     <script>
         // Here the code to fetch the elements that are going to come from the database
@@ -47,7 +52,7 @@
             // Retrieve the variables from the database
             var i = 0
             setTimeout(function(){
-                console.log('Hi')
+                console.log('Hi');
                 i ++;
                 if (i<10){
                     techniquepractice();
@@ -67,12 +72,13 @@
         // })
         const target = document.getElementById('id_target');
         const targeth1 = document.getElementById('testing');
+        const targeth11 = document.getElementById('testing1');
         let selected = [];
         target.style.background = 'pink';
         target.addEventListener('click', myFunction);
         
         function myFunction(event) {
-            // targeth1.innerHTML = "Mouse over"
+            // targeth1.innerHTML = "Mouse over";
             const checked = document.querySelectorAll('input[name="target"]:checked');
             if (checked) {
                 selected = Array.from(checked).map(x => x.value);
@@ -92,20 +98,58 @@
 
                     function changingStuff() {
                         techniques = JSON.stringify(data);
+                        techniques2 = data[0];
                         // if (techniques) {
                         //     techniques1 = Array.from(techniques).map(x => x.value);
                         //     // console.log("tech_name try: -----" + JSON.stringify(techniques1));
                         //     // targeth1.innerHTML = techniques1;
                         // }
-                        tt = []
+                        tt = [];
+                        td = {};
 
                         for (let item of data){
-                            techniques1 = tt.push(techniques.fields)
+                            techniques1 = tt.push(item);
+                            // techniques3 = td.push(item.fields)
                         }
+
+                        // data.forEach(aaa)
+
+                        // function aaa(){
+                        //     for (let [k, v] of Object.entries(techniques2)){
+                        //         td[k] = v;
+                        //         console.log('--->')
+                        //         console.log(td)
+                        //         console.log(td.name)
+                        //         console.log(td.application)
+                        //         console.log(td.steps)
+                        //         console.log(td.target)
+                        //     }
+                        // }
+
+                        for (let i = 0; i < data.length; i++){
+                            let name = data[i].name;
+                            let application = data[i].application;
+                            let steps = data[i].steps;
+                            tt.push(name);
+                            tt.push(application);
+                            tt.push(steps);
+                        }
+
+                        // tx = [];
+                        // data.forEach(bbb);
+                        // function bbb(value, index, array){
+                        //     tx.push(value);
+                        // }
+
+                        techniques3 = td
                         
-                        console.log("Techniques:\n" + techniques1);
-                        targeth1.innerHTML = techniques; // Get the advice portion of the API here.
-                        console.log(techniques)
+                        console.log("Techniques: " + techniques1);
+                        console.log(data);
+                        console.log(tt);
+                        console.log(techniques3);
+                        console.log(techniques);
+                        targeth1.innerHTML = techniques2;
+                        targeth11.innerHTML = `${techniques2.name}, ${techniques2.application}`;
                     };
                     changingStuff();
                 })
