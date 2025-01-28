@@ -18,5 +18,6 @@ router.register(r"authors", views.author,basename="authors")
 
 urlpatterns = [
     path("", views.index, name="home"),
+    # path("blogs", views.allBlogs.as_view(), name="blogs"),
     path("", include(router.urls)),
 ]

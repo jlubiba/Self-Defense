@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
     tag = serializers.StringRelatedField(read_only=True, many=True)
     class Meta:
         model = Post
-        fields = ["user", "slug", "body", "sub_category","tag", "creation_date"]
+        fields = ["author", "body", "sub_category","tag", "creation_date"]
 
 class CommentSerializer(serializers.ModelSerializer):
     post = serializers.StringRelatedField(read_only=True)

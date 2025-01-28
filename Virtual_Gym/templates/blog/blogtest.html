@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for post in posts %}
+{{post.name}} - {{post.body}}
+{% endfor%}
+
+<form action="">
+    {% csrf_token %}
+    {{blogform.as_p}}
+</form>
+
+{% endblock %}

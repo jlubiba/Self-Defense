@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "tutorials.apps.TutorialsConfig",
     "users.apps.UsersConfig",
     "store.apps.StoreConfig",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [

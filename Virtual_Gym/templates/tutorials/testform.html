@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test form page</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
     <fieldset>
         <legend>Techniques</legend>
         <form action="">
@@ -127,12 +123,7 @@
                         // }
 
                         for (let i = 0; i < data.length; i++){
-                            let name = data[i].name;
-                            let application = data[i].application;
-                            let steps = data[i].steps;
-                            tt.push(name);
-                            tt.push(application);
-                            tt.push(steps);
+                            tt.push(data[i].name);
                         }
 
                         // tx = [];
@@ -148,7 +139,7 @@
                         console.log(tt);
                         console.log(techniques3);
                         console.log(techniques);
-                        targeth1.innerHTML = techniques2;
+                        targeth1.innerHTML = techniques3;
                         targeth11.innerHTML = `${techniques2.name}, ${techniques2.application}`;
                     };
                     changingStuff();
@@ -156,5 +147,4 @@
         }
 
     </script>
-</body>
-</html>
+{% endblock content %}
