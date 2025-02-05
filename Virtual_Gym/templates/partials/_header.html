@@ -1,0 +1,89 @@
+<header class="p-3 text-bg-dark">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        VG Logo
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" data-bs-theme="dark">
+        <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Blogs</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" aria-labelledby="dropdownMenuButtonDark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tutorials
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Written Tutorials</a></li>
+                <li><a class="dropdown-item" href="#">Video Tutorials</a></li>
+            </ul>
+          </li>
+        <li><a href="#" class="nav-link px-2 text-white">Practice</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Store</a></li>
+      </ul>
+
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+      </form>
+
+      <!-- Dark mode -->
+      {% if user.is_authenticated %}
+      <div class="dropdown text-end" data-bs-theme="dark">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownMenuButtonDark">
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <!-- The format to allow logout to work well. -->
+            <a class="dropdown-item">
+              <form action="#" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="nav-link" value="Sign out"></input>
+              </form>
+            </a>
+        </li>
+        </ul>
+      </div>
+      {% else %}
+      <div class="text-end">
+        <a href="#">
+            <button type="button" class="btn btn-outline-light me-2">Login</button></a>
+        <a href="#">
+            <button type="button" class="btn btn-warning">Register</button>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+    </div>
+  </div>
+</header>
+
+<div class="container bg-body-tertiary">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-secondary">Feature home</a></li>
+        <li><a href="#" class="nav-link px-2 text-secondary">Add post</a></li>
+        <li><a href="#" class="nav-link px-2 text-secondary">Add category</a></li>
+        {% if category_list%}
+          <!-- The category list -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu">
+              {% for category in category_list %}
+                <li><a class="dropdown-item text-secondary" href="#">{{category}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="#">Categories</a>
+        </li>
+        {% endif %}
+      </ul>
+    </header>
+  </div>
