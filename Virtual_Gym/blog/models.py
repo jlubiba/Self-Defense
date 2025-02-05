@@ -67,7 +67,7 @@ class Post(AddedElement):
     sub_category = models.ManyToManyField(SubCategory, related_name='sub_category')
     tag = models.ManyToManyField(Tag, related_name='tag')
     
-    def save(self, request, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.author = User.objects.filter(id=self.user)
         super(Post, self).save(*args, **kwargs)

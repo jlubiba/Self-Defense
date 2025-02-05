@@ -10,14 +10,14 @@ from .forms import CategoryForm, SubCategoryForm, CommentForm, PostForm, TagForm
 def index(request):
     return HttpResponse("Welcome to the welcoming page!")
 
-class Blogs(ListView):
+class blogs(ListView):
     model = Post
-    template_name = 'blog/blogtest.html'
+    template_name = 'blog/blogtest_template.html'
     
     # This method that will allow for a context dict to be added onto the view
     def get_context_data(self, *args,**kwargs):
         posts = Post.objects.all()
-        context = super(Blogs, self).get_context_data(*args, **kwargs) # The view inside is the view the method is used in
+        context = super(blogs, self).get_context_data(*args, **kwargs) # The view inside is the view the method is used in
         context['posts'] = posts
         context['blogform'] = PostForm
         return context
