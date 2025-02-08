@@ -1,0 +1,454 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- This is to allow changes automated changes to title name, with the one below as default. -->
+    <title>
+        
+        TTest
+
+    </title>
+    <style>
+      #comments{
+        border: none;
+        padding: 5px;
+        padding-left: 0;
+        outline: none;
+        border-bottom: 2px solid blue;
+        border-radius: 0.5rem;
+        margin-bottom: 10px;
+        width: 95%;
+      }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              VG Logo
+            </a>
+      
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" data-bs-theme="dark">
+              <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Blogs</a></li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle text-white" aria-labelledby="dropdownMenuButtonDark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Tutorials
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Written Tutorials</a></li>
+                      <li><a class="dropdown-item" href="#">Video Tutorials</a></li>
+                  </ul>
+                </li>
+              <li><a href="#" class="nav-link px-2 text-white">Practice</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Store</a></li>
+            </ul>
+      
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+            </form>
+      
+            <!-- Dark mode -->
+            {% if user.is_authenticated %}
+            <div class="dropdown text-end" data-bs-theme="dark">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+              </a>
+              <ul class="dropdown-menu text-small" aria-labelledby="dropdownMenuButtonDark">
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <!-- The format to allow logout to work well. -->
+                  <a class="dropdown-item">
+                    <form action="#" method="POST">
+                      {% csrf_token %}
+                      <input type="submit" class="nav-link" value="Sign out"></input>
+                    </form>
+                  </a>
+              </li>
+              </ul>
+            </div>
+            {% else %}
+            <div class="text-end">
+              <a href="#">
+                  <button type="button" class="btn btn-outline-light me-2">Login</button></a>
+              <a href="#">
+                  <button type="button" class="btn btn-warning">Register</button>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="container bg-body-tertiary">
+          <header class="d-flex justify-content-center py-3">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="#" class="nav-link px-2 text-secondary">Feature home</a></li>
+              <li><a href="#" class="nav-link px-2 text-secondary">Add post</a></li>
+              <li><a href="#" class="nav-link px-2 text-secondary">Add category</a></li>
+              {% if category_list%}
+                <!-- The category list -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle text-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% for category in category_list %}
+                      <li><a class="dropdown-item text-secondary" href="#">{{category}}</a></li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link text-secondary" href="#">Categories</a>
+              </li>
+              {% endif %}
+            </ul>
+          </header>
+        </div>
+  </div>
+        
+    <main class="container">
+        <br>
+      <!-- Available Categories & Sub-category -->
+        <div class="row g-5 justify-content-between">
+
+          <div class="col-md-4">
+                <div class="b-example-divider b-example-vr"></div>
+    
+                <div class="flex-shrink-0 p-3">
+                  <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                    <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                    <span class="fs-5 fw-semibold">Collapsible</span>
+                  </a>
+                  <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        Striking and Blocking
+                      </button>
+                      <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav fw-normal pb-1 small">
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Punching</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Kicking</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Elbows and Knees</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Blocking and Parrying</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="mb-1">
+                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                        Grappling and Ground Defense
+                      </button>
+                      <div class="collapse" id="dashboard-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Takedowns and Throws</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Submissions</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ground Escapes</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Clinch Control</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="mb-1">
+                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                        Movement and Footwork
+                      </button>
+                      <div class="collapse" id="orders-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Footwork Patterns</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Distance Management</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Angle Creation</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Evasion</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="border-top my-3"></li>
+                    <li class="mb-1">
+                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                        Conditioning and Strength Training
+                      </button>
+                      <div class="collapse" id="account-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Endurance Training</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Strength Training</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Agility Drills</a></li>
+                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Plyometrics</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <br>
+                      
+            <!-- Pagination section -->
+            
+            <div class="pagination">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        
+                      <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      
+                      <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=2">&rang;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=3">&Rang;</a>
+                      </li>
+                      
+                    </ul>
+                  </nav>
+            </div>
+            <!-- End Pagination section -->
+          </div>
+
+        <!-- End Available Categories & Sub-category -->
+         
+
+        <!-- Categories & Sub-category -->         
+          <div class="col-md-5">
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary">
+                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Punching</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Jab</strong>
+                      <small>Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Cross</strong>
+                      <small class="text-body-secondary">Tues</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Hook</strong>
+                      <small class="text-body-secondary">Mon</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+            
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Upper-cut</strong>
+                      <small class="text-body-secondary">Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                </div>
+                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Kicking</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Front kick</strong>
+                      <small>Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Roundhouse kick</strong>
+                      <small class="text-body-secondary">Tues</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Side kick</strong>
+                      <small class="text-body-secondary">Mon</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+            
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Knee strikes</strong>
+                      <small class="text-body-secondary">Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                </div>
+                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Elbows and Knees</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">CLose range strikes with elbows</strong>
+                      <small>Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Knees</strong>
+                      <small class="text-body-secondary">Tues</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                </div>
+                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Blocking and Parrying</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Techniques to block</strong>
+                      <small>Wed</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Deflect</strong>
+                      <small class="text-body-secondary">Tues</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">Parry incoming strikes</strong>
+                      <small class="text-body-secondary">Mon</small>
+                    </div>
+                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                  </a>
+                </div>
+              </div>
+            
+          </div>
+          
+          <!-- Start of the right side-bar -->
+           
+          <!-- Short description to tell your visitors a little bit about your publication, writers, content, or something else entirely -->
+          <div class="col-md-3">
+            <div class="position-sticky" style="top: 2rem;">
+              <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+              </div>
+
+            <!-- Section for recent posts -->
+
+              <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/19">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Blah blah b;ah</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/20">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">The one with the image of &quot;The beautiful boy&quot; poster.</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/17">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Lorem Ipsum</h6>
+                        <small class="text-body-secondary">Feb. 1, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/15">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Two</h6>
+                        <small class="text-body-secondary">Jan. 27, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            
+            <!-- End Section for recent posts -->
+
+            <!-- Filtering the blog post per month in year. e.g: March 2024 -->
+              <div class="p-4">
+                <h4 class="fst-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+                  <li><a href="#">March 2021</a></li>
+                  <li><a href="#">February 2021</a></li>
+                  <li><a href="#">January 2021</a></li>
+                  <li><a href="#">December 2020</a></li>
+                  <li><a href="#">November 2020</a></li>
+                  <li><a href="#">October 2020</a></li>
+                  <li><a href="#">September 2020</a></li>
+                  <li><a href="#">August 2020</a></li>
+                  <li><a href="#">July 2020</a></li>
+                  <li><a href="#">June 2020</a></li>
+                  <li><a href="#">May 2020</a></li>
+                  <li><a href="#">April 2020</a></li>
+                </ol>
+              </div>
+            
+              <!-- Other platform to have access -->
+              <div class="p-4">
+                <h4 class="fst-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                  <li><a href="#">GitHub</a></li>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">Facebook</a></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </main>
+
+    </div>
+    <!-- Footer -->
+        <footer class="footer mt-auto py-3 bg-body-tertiary">
+            <div class="container d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Company, Inc</p>
+            
+                <a href="/" class="col-md-3 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                </a>
+        
+                <ul class="nav col-md-5 justify-content-end">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                </ul>
+            </div>
+        </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

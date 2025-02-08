@@ -6,7 +6,9 @@ app_name = "tutorials"
 
 urlpatterns = [
     path("", views.index, name="home"),
+    path("home1", views.index00, name="home1"),
     path("test", views.test, name="test"),
+    path("ttest", views.ttest, name="ttest"),
     path("technique", views.TechniqueGenerator, name="technique"),
 ]
 
