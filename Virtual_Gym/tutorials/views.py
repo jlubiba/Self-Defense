@@ -11,7 +11,29 @@ from .forms import *
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Welcome to the welcoming page!")
+    return render(request, 'tutorials/tutorial_home.html', {})
+def ttest(request):
+    return render(request, 'tutorials/testza.html', {})
+@api_view(['GET'])
+def index00(request):
+    items = Technique.objects.select_related('sub_category').prefetch_related('target').all()
+    blevel = request.query_params.get('body_level')
+    atypes = request.query_params.get('action_types')
+    dlevel = request.query_params.get('difficulty_level')
+        
+    if atypes:
+        items = items.filter(action_types=atypes)
+    if blevel:
+        items = items.filter(body_level=blevel)
+    if dlevel:
+        items = items.filter(difficulty_level=dlevel)
+
+    # techniques = TechniqueSerializer(items, many=True)
+    context = {
+        'techniques': items,
+    }
+    # return Response(techniques.data)
+    return render(request, 'tutorials/written_tutorial_home.html', context)
 
 def test(request):
     techniqueform = techniqueForm()
@@ -139,6 +161,26 @@ class technique(viewsets.ModelViewSet):
             permission_classes = [IsTutorialManagerPermission | IsGeneralManagerPermission]
         
         return [permission() for permission in permission_classes]
+    
+    def list(self, request):
+        items = self.queryset
+        blevel = request.query_params.get('body_level')
+        atypes = request.query_params.get('action_types')
+        dlevel = request.query_params.get('difficulty_level')
+            
+        if atypes:
+            items = items.filter(action_types=atypes)
+        if blevel:
+            items = items.filter(body_level=blevel)
+        if dlevel:
+            items = items.filter(difficulty_level=dlevel)
+
+        # techniques = TechniqueSerializer(items, many=True)
+        context = {
+            'techniques': items,
+        }
+        # return Response(techniques.data)
+        return render(request, 'tutorials/written_tutorial_home.html', context)
 
 class combo(viewsets.ModelViewSet):
     queryset = Combo.objects.prefetch_related('technique', 'target').all()

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Side bar start -->
+
+<!-- Side bar end -->
+    {% for technique in techniques %}
+    <h1>
+        {{technique.name | title }}
+    </h1>
+    <h3>Body level:</h3>
+    <p>{{technique.body_level}}</p>
+    <h3>Action types:</h3>
+    <p>{{technique.action_types}}</p>
+    <h3>Difficulty level:</h3>
+    <p>{{technique.difficulty_level}}</p>
+    <h3>Steps:</h3>
+    <p>{{technique.steps | safe}}</p>
+    <h3>Applications:</h3>
+    <p>{{technique.application}}</p>
+    <h3>Category:</h3>
+    <p>{{technique.sub_category}}</p>
+    <h3>Target areas:</h3>
+    <u>
+        {% for target in technique.target.all %}
+        <li>{{target}}</li>
+        {% endfor %}
+    </u>
+    <hr>
+    {% endfor %}
+{% endblock %}

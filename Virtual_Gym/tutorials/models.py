@@ -5,7 +5,7 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 action_types = [('offense', 'Offense'), ('defense', 'Defense'), ('offense & defense', 'Offense & Defense')]
 body_level = [('upper-body', 'Upper-body'), ('lower-body', 'Lower-body'), ('head', 'Head'), ('full-body', 'Full-body')]
-difficty_level = [('novice', 'Novice'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')]
+difficulty_level = [('novice', 'Novice'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')]
 
 #Abstract model classes that well feel the other model with reused fields
 class AddedElement(models.Model):
@@ -20,7 +20,7 @@ class AddedElement(models.Model):
 class Moves(AddedElement):
     body_level = models.CharField(max_length=50, choices=body_level)
     action_types = models.CharField(max_length=50, choices=action_types)
-    difficty_level = models.CharField(max_length=50, choices=difficty_level)
+    difficulty_level = models.CharField(max_length=50, choices=difficulty_level)
     
     class Meta:
         abstract = True
@@ -73,7 +73,7 @@ class Target(AddedElement):
         return self.name
     
 class Technique(Moves):
-    steps = models.TextField()
+    steps = RichTextField()
     application = models.CharField(max_length=250)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,
                                 related_name='tutorials_technique_subcategory')
