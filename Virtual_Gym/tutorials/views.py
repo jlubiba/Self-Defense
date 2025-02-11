@@ -13,7 +13,7 @@ from .forms import *
 def index(request):
     return render(request, 'tutorials/tutorial_home.html', {})
 def ttest(request):
-    return render(request, 'tutorials/testza.html', {})
+    return render(request, 'tutorials/testx.html', {})
 @api_view(['GET'])
 def index00(request):
     items = Technique.objects.select_related('sub_category').prefetch_related('target').all()
