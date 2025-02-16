@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+
+{% block content %}  
+    <main class="container">
+        <br>
+      <!-- Available Categories & Sub-category -->
+      <div class="row g-5 justify-content-between">
+
+        <div class="col-md-4">
+              <div class="b-example-divider b-example-vr"></div>
+  
+              <div class="flex-shrink-0 p-3">
+                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Tutorial Categories</span>
+                </a>
+                <ul class="list-unstyled ps-0">
+                  {% for category in category_list %}
+                  <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                      <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        {{category.name}}
+                      </a>
+                    </button>
+                    {% for subcategory in category.subcategories.all %}
+                      <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav fw-normal pb-1 small">
+                          <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
+                        </ul>
+                      </div>
+                    {% endfor %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <br>
+                    
+          <!-- Pagination section -->
+          
+          <div class="pagination">
+              <nav aria-label="...">
+                  <ul class="pagination">
+                      
+                    <li class="page-item active" aria-current="page">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    
+                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=2">&rang;</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=3">&Rang;</a>
+                    </li>
+                    
+                  </ul>
+                </nav>
+          </div>
+          <!-- End Pagination section -->
+        </div>
+
+      <!-- End Available Categories & Sub-category -->
+         
+
+        <!-- Categories & Sub-category -->         
+          <div class="col-md-5">
+                <h2 class="d-flex justify-content-center">
+                  {{technique}}
+              </h2>
+              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+              <div class="d-flex w-100 align-items-center justify-content-around">
+                <div class="mb-1">
+                  <strong>Action types:</strong>
+                  <p><em>{{technique.action_types | title}}</em></p>
+                </div>
+                <div class="mb-1">
+                  <strong>Body level:</strong><br>
+                  <p><em>{{technique.body_level | title}}</em></p>
+                </div>
+                <div class="mb-1">
+                  <strong>Difficulty level:</strong><br>
+                  <p><em>{{technique.difficulty_level | title}}</em></p>
+                </div>
+              </div>
+              </a><br>
+
+              <h5>Steps:</h5>
+              <p>
+                {{technique.steps | safe}}
+              </p><br><br>
+              
+              <h5>Target areas:</h5>
+              {% for area in technique.target.all %}
+                <ul>
+                    <li> <strong>{{area.name}}</strong> : {{area.reason}}</li>
+                </ul>
+              {% endfor %}
+            
+          </div>
+          
+          <!-- Start of the right side-bar -->
+           
+          <!-- Short description to tell your visitors a little bit about your publication, writers, content, or something else entirely -->
+          <div class="col-md-3">
+            <div class="position-sticky" style="top: 2rem;">
+              <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0"> The <strong>{{technique}}</strong> is: {{technique.application}}</p>
+              </div>
+
+            <!-- Section for recent posts -->
+
+              <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/19">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Blah blah b;ah</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/20">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">The one with the image of &quot;The beautiful boy&quot; poster.</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/17">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Lorem Ipsum</h6>
+                        <small class="text-body-secondary">Feb. 1, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/15">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Two</h6>
+                        <small class="text-body-secondary">Jan. 27, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            
+            <!-- End Section for recent posts -->
+
+            </div>
+          </div>
+        </div>
+      
+      </main>
+{% endblock content %}
