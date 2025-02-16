@@ -53,7 +53,8 @@ class Tag(AddedElement):
 class SubCategory(AddedElement):
     description = models.CharField(max_length=250)
     proper_execution = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, 
+                                related_name='subcategories')
     added_by= models.ForeignKey(User, on_delete=models.PROTECT,
                                 related_name='tutorials_subcategory_added_by')
     
@@ -76,16 +77,16 @@ class Technique(Moves):
     steps = RichTextField()
     application = models.CharField(max_length=250)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,
-                                related_name='tutorials_technique_subcategory')
-    target = models.ManyToManyField(Target, related_name='tutorials_technique_target')
+                                related_name='techniques')
+    target = models.ManyToManyField(Target, related_name='techniques')
     
     def __str__(self):
         return self.name
     
 class Combo(Moves):
     description = models.CharField(max_length=250, default='A cool combo!')
-    technique = models.ManyToManyField(Technique, related_name='technique')
-    target = models.ManyToManyField(Target, related_name='tutorials_combo_target')
+    technique = models.ManyToManyField(Technique, related_name='combos')
+    target = models.ManyToManyField(Target, related_name='combos')
     
     def __str__(self):
         return self.name

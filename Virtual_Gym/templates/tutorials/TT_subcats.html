@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main class="container">
+        <br>
+      <!-- Available Categories & Sub-category -->
+      <div class="row g-5 justify-content-between">
+
+        <div class="col-md-4">
+              <div class="b-example-divider b-example-vr"></div>
+  
+              <div class="flex-shrink-0 p-3">
+                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Tutorial Categories</span>
+                </a>
+                <ul class="list-unstyled ps-0">
+                  {% for category in category_list %}
+                  <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                      <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        {{category.name}}
+                      </a>
+                    </button>
+                    {% for subcategory in category.subcategories.all %}
+                      <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav fw-normal pb-1 small">
+                          <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
+                        </ul>
+                      </div>
+                    {% endfor %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <br>
+                    
+          <!-- Pagination section -->
+          
+          <div class="pagination">
+              <nav aria-label="...">
+                  <ul class="pagination">
+                      
+                    <li class="page-item active" aria-current="page">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    
+                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=2">&rang;</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=3">&Rang;</a>
+                    </li>
+                    
+                  </ul>
+                </nav>
+          </div>
+          <!-- End Pagination section -->
+        </div>
+
+      <!-- End Available Categories & Sub-category -->
+         
+        <!-- Categories & Sub-category -->
+          <div class="col-md-5">
+            <h1>
+              {{category}}
+            </h1>
+
+            {% for subcategory in subcategories_list %}
+              <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary">
+                <a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">{{subcategory}}</span>
+                </a>
+                {% for technique in subcategory.techniques.all %}
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="{% url 'tutorials:tttutorial_technique' technique.pk %}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                      <strong class="mb-1">{{technique.name}}</strong>
+                    </div>
+                    <div class="col-10 mb-1 small">
+                      {{technique.application}}
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- End of Categories & Sub-category -->
+          
+          <!-- Start of the right side-bar -->
+           
+          <!-- Short description to tell your visitors a little bit about your publication, writers, content, or something else entirely -->
+          <div class="col-md-3">
+            <div class="position-sticky" style="top: 2rem;">
+              <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0">{{current_category_list.description}}</p>
+              </div>
+
+            <!-- Section for recent posts -->
+
+              <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/19">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Blah blah b;ah</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/20">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">The one with the image of &quot;The beautiful boy&quot; poster.</h6>
+                        <small class="text-body-secondary">Feb. 2, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/17">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Lorem Ipsum</h6>
+                        <small class="text-body-secondary">Feb. 1, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/15">
+                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                      <div class="col-lg-8">
+                        <h6 class="mb-0">Two</h6>
+                        <small class="text-body-secondary">Jan. 27, 2025</small>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            
+            <!-- End Section for recent posts -->
+
+            <!-- Filtering the blog post per month in year. e.g: March 2024 -->
+              <div class="p-4">
+                <h4 class="fst-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+                  <li><a href="#">March 2021</a></li>
+                  <li><a href="#">February 2021</a></li>
+                  <li><a href="#">January 2021</a></li>
+                  <li><a href="#">December 2020</a></li>
+                  <li><a href="#">November 2020</a></li>
+                  <li><a href="#">October 2020</a></li>
+                  <li><a href="#">September 2020</a></li>
+                  <li><a href="#">August 2020</a></li>
+                  <li><a href="#">July 2020</a></li>
+                  <li><a href="#">June 2020</a></li>
+                  <li><a href="#">May 2020</a></li>
+                  <li><a href="#">April 2020</a></li>
+                </ol>
+              </div>
+            
+              <!-- Other platform to have access -->
+              <div class="p-4">
+                <h4 class="fst-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                  <li><a href="#">GitHub</a></li>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">Facebook</a></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </main>
+{% endblock content %}

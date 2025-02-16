@@ -120,141 +120,86 @@
     <main class="container">
         <br>
       <!-- Available Categories & Sub-category -->
-        <div class="row g-5 justify-content-between">
+      <div class="row g-5 justify-content-between">
 
-          <div class="col-md-4">
-                <div class="b-example-divider b-example-vr"></div>
-    
-                <div class="flex-shrink-0 p-3">
-                  <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-                    <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                    <span class="fs-5 fw-semibold">Collapsible</span>
-                  </a>
-                  <ul class="list-unstyled ps-0">
-                    <li class="mb-1">
-                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                        Striking and Blocking
-                      </button>
+        <div class="col-md-4">
+              <div class="b-example-divider b-example-vr"></div>
+  
+              <div class="flex-shrink-0 p-3">
+                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Tutorial Categories</span>
+                </a>
+                <ul class="list-unstyled ps-0">
+                  {% for category in category_list %}
+                  <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                      <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        {{category.name}}
+                      </a>
+                    </button>
+                    {% for subcategory in category.subcategories.all %}
                       <div class="collapse show" id="home-collapse">
                         <ul class="btn-toggle-nav fw-normal pb-1 small">
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Punching</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Kicking</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Elbows and Knees</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Blocking and Parrying</a></li>
+                          <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
                         </ul>
                       </div>
+                    {% endfor %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <br>
+                    
+          <!-- Pagination section -->
+          
+          <div class="pagination">
+              <nav aria-label="...">
+                  <ul class="pagination">
+                      
+                    <li class="page-item active" aria-current="page">
+                      <a class="page-link" href="#">1</a>
                     </li>
-                    <li class="mb-1">
-                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                        Grappling and Ground Defense
-                      </button>
-                      <div class="collapse" id="dashboard-collapse">
-                        <ul class="btn-toggle-nav fw-normal pb-1 small">
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Takedowns and Throws</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Submissions</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ground Escapes</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Clinch Control</a></li>
-                        </ul>
-                      </div>
+                    
+                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=2">&rang;</a>
                     </li>
-                    <li class="mb-1">
-                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                        Movement and Footwork
-                      </button>
-                      <div class="collapse" id="orders-collapse">
-                        <ul class="btn-toggle-nav fw-normal pb-1 small">
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Footwork Patterns</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Distance Management</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Angle Creation</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Evasion</a></li>
-                        </ul>
-                      </div>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=3">&Rang;</a>
                     </li>
-                    <li class="border-top my-3"></li>
-                    <li class="mb-1">
-                      <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                        Conditioning and Strength Training
-                      </button>
-                      <div class="collapse" id="account-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Endurance Training</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Strength Training</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Agility Drills</a></li>
-                          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Plyometrics</a></li>
-                        </ul>
-                      </div>
-                    </li>
+                    
                   </ul>
-                </div>
-                <br>
-                      
-            <!-- Pagination section -->
-            
-            <div class="pagination">
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        
-                      <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">1</a>
-                      </li>
-                      
-                      <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="?page=2">&rang;</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="?page=3">&Rang;</a>
-                      </li>
-                      
-                    </ul>
-                  </nav>
-            </div>
-            <!-- End Pagination section -->
+                </nav>
           </div>
+          <!-- End Pagination section -->
+        </div>
 
-        <!-- End Available Categories & Sub-category -->
+      <!-- End Available Categories & Sub-category -->
          
 
-        <!-- Categories & Sub-category -->         
+        <!-- Categories & Sub-category -->
           <div class="col-md-5">
-            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary">
-                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
-                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                  <span class="fs-5 fw-semibold">Striking and Blocking</span>
-                </a>
-                <div class="list-group list-group-flush border-bottom scrollarea">
-                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                    <div class="d-flex w-100 align-items-center justify-content-between">
-                      <strong class="mb-1">Punching</strong>
-                      <small>Wed</small>
-                    </div>
-                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                    <div class="d-flex w-100 align-items-center justify-content-between">
-                      <strong class="mb-1">Kicking</strong>
-                      <small class="text-body-secondary">Tues</small>
-                    </div>
-                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                    <div class="d-flex w-100 align-items-center justify-content-between">
-                      <strong class="mb-1">Elbows and Knees</strong>
-                      <small class="text-body-secondary">Mon</small>
-                    </div>
-                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                  </a>
+            <h1>
+              {{subcategory_list}}
+            </h1>
             
-                  <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary">
+                <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Techniques:</span>
+                </div>
+                {% for technique in subcategory_list.techniques.all %}
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                  <a href="{% url 'tutorials:tttutorial_technique' technique.pk %}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
                     <div class="d-flex w-100 align-items-center justify-content-between">
-                      <strong class="mb-1">Blocking and Parrying</strong>
-                      <small class="text-body-secondary">Wed</small>
+                      <strong class="mb-1">{{technique.name}}</strong>
                     </div>
-                    <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    <div class="col-10 mb-1 small">{{technique.application}}</div>
                   </a>
                 </div>
+                {% endfor %}
               </div>
-            
           </div>
           
           <!-- Start of the right side-bar -->
@@ -264,7 +209,7 @@
             <div class="position-sticky" style="top: 2rem;">
               <div class="p-4 mb-3 bg-body-tertiary rounded">
                 <h4 class="fst-italic">About</h4>
-                <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+                <p class="mb-0">The {{category}} category: {{category.description}}</p>
               </div>
 
             <!-- Section for recent posts -->

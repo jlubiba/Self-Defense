@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes, throttle_classes, api_view
@@ -217,3 +218,46 @@ class videoTutotial(viewsets.ModelViewSet):
             permission_classes = [IsAuthorPermission | IsGeneralManagerPermission]
         
         return [permission() for permission in permission_classes]
+
+class WelcomeTTutorial(ListView):
+    model = Category
+    template_name = 'tutorials/TT_home.html'
+    context_object_name = 'category_list'
+
+class SingleCategoryTTutorial(DetailView):
+    model = Category
+    template_name = 'tutorials/TT_single_cat.html'
+    
+    def get_context_data(self, **kwargs):
+        current_sub_category = SubCategory.objects.filter(category__id=self.kwargs['pk'])  # Fetches the subcategory for the current category's id
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleCategoryTTutorial, self).get_context_data(**kwargs)
+        context['current_sub_category'] = current_sub_category
+        context['category_list'] = category_list
+        return context
+    
+
+class SubCategoriesTTutorial(DetailView):
+    model = Category
+    template_name = 'tutorials/TT_subcats.html'
+    paginate_by = 5
+    
+    def get_context_data(self, **kwargs):
+        subcategories_list = SubCategory.objects.filter(category__id=self.kwargs['pk'])
+        context = super(SubCategoriesTTutorial, self).get_context_data(**kwargs)
+        context['subcategories_list'] = subcategories_list
+        return context
+    
+class SingleSubCategoryTTutorial(DetailView):
+    model = SubCategory
+    template_name = 'tutorials/TT_single_subcat.html'
+    context_object_name = 'subcategory_list'
+    
+class SingleTechniqueTTutorial(DetailView):
+    model = Technique
+    template_name = 'tutorials/TT_technique.html'
+
+class AllCategoryTTutorial(ListView):
+    model = Category
+    template_name = 'tutorials/TT_all_cat.html'
+    context_object_name = 'category_list'
