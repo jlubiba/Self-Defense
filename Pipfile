@@ -11,6 +11,8 @@ djangorestframework-yaml = "*"
 django-filter = "*"
 djoser = "*"
 bleach = "*"
+django-extensions = "*"
+pydotplus = "*"
 
 [dev-packages]
 
