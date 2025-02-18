@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <br>
+    <div class="row g-5 justify-content-around">
+         
+    <!-- Subcategory form -->
+            <div class="col-md-4">
+                <h1>Add subcategory</h1><br>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.media}}
+                    {{form.as_p | safe }}
+                    <button class="btn btn-secondary" name="add_subcategory">Add Sub-category</button>
+                </form>
+            </div>
+            <!-- Available Categories & Sub-category -->
+            <div class="col-md-6">
+                <div class="flex-shrink-0 p-3">
+                <a href="{% url 'tutorials:ttutorial_all_category' %}" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                    <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                    <span class="fs-5 fw-semibold">Tutorial Categories</span>
+                </a>
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                    <button class="btn d-inline-flex align-items-center rounded border-0  fw-semibold">
+                        <a href="{% url 'tutorials:ttutorial_all_combo'%}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        Combos
+                        </a>
+                    </button>
+                    </li>
+                    {% for category in category_list %}
+                    <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-start rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        {{category.name}}
+                        </a>
+                    </button>
+                    {% for subcategory in category.subcategories.all %}
+                        <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav fw-normal pb-1 small">
+                            <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
+                        </ul>
+                        </div>
+                    {% endfor %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                </div>
+                <br>
+        </div>
+        </div>
+        <script>
+            // Fetching current user id and placing it on the form
+            let user_id = "{{user.id}}";
+            author_input = document.getElementById('author').value = user_id;
+        </script>
+</main>
+{% endblock content %}

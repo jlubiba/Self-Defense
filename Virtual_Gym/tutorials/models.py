@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 action_types = [('offense', 'Offense'), ('defense', 'Defense'), ('offense & defense', 'Offense & Defense')]
@@ -35,9 +37,16 @@ class Category(AddedElement):
         if not obj.pk:
             obj.added_by = request.user
         super().save_model(request, obj, form, change)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('tutorials:tttutorial_single_category', args=[str(self.pk)]) 
 
 class Tag(AddedElement):
     added_by= models.ForeignKey(User, on_delete=models.PROTECT)
@@ -46,6 +55,10 @@ class Tag(AddedElement):
         if not obj.pk:
             obj.added_by = request.user
         super().save_model(request, obj, form, change)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Tag, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
@@ -62,13 +75,24 @@ class SubCategory(AddedElement):
         if not obj.pk:
             obj.added_by = request.user
         super().save_model(request, obj, form, change)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(SubCategory, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        return reverse('tutorials:tttutorial_single_subcategory', args=[str(self.pk)]) 
+    
 class Target(AddedElement):
     body_level = models.CharField(max_length=50, choices=body_level)
     reason = models.CharField(max_length=250)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Target, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
@@ -79,23 +103,41 @@ class Technique(Moves):
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,
                                 related_name='techniques')
     target = models.ManyToManyField(Target, related_name='techniques')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Technique, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('tutorials:tttutorial_technique', args=[str(self.pk)]) 
     
 class Combo(Moves):
     description = models.CharField(max_length=250, default='A cool combo!')
     technique = models.ManyToManyField(Technique, related_name='combos')
     target = models.ManyToManyField(Target, related_name='combos')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Combo, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('tutorials:tttutorial_combo', args=[str(self.pk)]) 
 
 class TextTutorial(AddedElement):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     body = RichTextField(blank=True, null=True)
     sub_category = models.ManyToManyField(SubCategory, related_name='sub_category')
     tag = models.ManyToManyField(Tag, related_name='tag')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(TextTutorial, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
@@ -108,3 +150,7 @@ class VideoTutorial(AddedElement):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(VideoTutorial, self).save(*args, **kwargs)

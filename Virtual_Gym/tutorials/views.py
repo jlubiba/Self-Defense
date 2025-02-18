@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes, throttle_classes, api_view
@@ -243,9 +243,11 @@ class SubCategoriesTTutorial(DetailView):
     paginate_by = 5
     
     def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
         subcategories_list = SubCategory.objects.filter(category__id=self.kwargs['pk'])
         context = super(SubCategoriesTTutorial, self).get_context_data(**kwargs)
         context['subcategories_list'] = subcategories_list
+        context['category_list'] = category_list
         return context
     
 class SingleSubCategoryTTutorial(DetailView):
@@ -253,11 +255,115 @@ class SingleSubCategoryTTutorial(DetailView):
     template_name = 'tutorials/TT_single_subcat.html'
     context_object_name = 'subcategory_list'
     
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleSubCategoryTTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        return context
+    
+    
 class SingleTechniqueTTutorial(DetailView):
     model = Technique
     template_name = 'tutorials/TT_technique.html'
+    
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleTechniqueTTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        return context
+    
 
 class AllCategoryTTutorial(ListView):
     model = Category
     template_name = 'tutorials/TT_all_cat.html'
     context_object_name = 'category_list'
+    paginate_by = 3
+    
+class SingleComboTTutorial(DetailView):
+    model = Combo
+    template_name = 'tutorials/TT_combo.html'
+    
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleComboTTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        return context
+    
+
+class AllComboTTutorial(ListView):
+    model = Combo
+    template_name = 'tutorials/TT_all_combo.html'
+    context_object_name = 'combo_list'
+    paginate_by = 6
+    
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(AllComboTTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        return context
+    
+
+def FormsPage(request):
+    technique_form = techniqueForm()
+    category_form = categoryForm()
+    subcategory_form = subCategoryForm()
+    
+    if request.method == 'POST':
+        category_form = categoryForm(request.POST)
+        if category_form.is_valid():
+            category_form.save()
+    
+    context = {
+        'technique_form': technique_form,
+        'category_form': category_form,
+        'subcategory_form': subcategory_form,
+        }
+    
+    return render(request, 'tutorials/add_technique.html', context)
+    
+class AddCategoryView(CreateView):
+    model = Category
+    form_class = categoryForm
+    template_name = 'tutorials/add_category.html'
+    
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(AddCategoryView, self).get_context_data(**kwargs)
+        context['element_list'] = category_list
+        return context
+    
+class AddSubategoryView(CreateView):
+    model = subCategory
+    form_class = subCategoryForm
+    template_name = 'tutorials/add_subcategory.html'
+    
+    def get_context_data(self, **kwargs):
+        category_list = SubCategory.objects.all()
+        category_list = Category.objects.all()
+        context = super(AddSubategoryView, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        context['element_list'] = category_list
+        return context
+    
+class AddTechniqueView(CreateView):
+    model = Technique
+    form_class = techniqueForm
+    template_name = 'tutorials/add_technique.html'
+    
+    def get_context_data(self, **kwargs):
+        technique_list = Technique.objects.all()
+        context = super(AddTechniqueView, self).get_context_data(**kwargs)
+        context['element_list'] = technique_list
+        return context
+
+class AddComboView(CreateView):
+    model = Combo
+    form_class = comboForm
+    template_name = 'tutorials/add_combo.html'
+    
+    def get_context_data(self, **kwargs):
+        combo_list = Combo.objects.all()
+        context = super(AddComboView, self).get_context_data(**kwargs)
+        context['element_list'] = combo_list
+        return context
+    

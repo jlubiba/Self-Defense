@@ -13,6 +13,7 @@ djoser = "*"
 bleach = "*"
 django-extensions = "*"
 pydotplus = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 

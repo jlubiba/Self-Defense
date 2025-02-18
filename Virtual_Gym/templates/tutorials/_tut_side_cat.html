@@ -1,0 +1,70 @@
+      <!-- Available Categories & Sub-category -->
+        <div class="col-md-4">
+              <div class="flex-shrink-0 p-3">
+                <a href="{% url 'tutorials:ttutorial_all_category' %}" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                  <span class="fs-5 fw-semibold">Tutorial Categories</span>
+                </a>
+                <ul class="list-unstyled ps-0">
+                  <li class="mb-1">
+                    <button class="btn d-inline-flex align-items-center rounded border-0  fw-semibold">
+                      <a href="{% url 'tutorials:ttutorial_all_combo'%}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        Combos
+                      </a>
+                    </button>
+                  </li>
+                  {% for category in category_list %}
+                  <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-start rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                      <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+                        {{category.name}}
+                      </a>
+                    </button>
+                    {% for subcategory in category.subcategories.all %}
+                      <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav fw-normal pb-1 small">
+                          <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
+                        </ul>
+                      </div>
+                    {% endfor %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <br>
+                    
+          <!-- Pagination section -->
+          {% if page_obj.paginator.num_pages == 1%}
+          {% else%}
+          <div class="pagination">
+              <nav aria-label="...">
+                  <ul class="pagination">
+                      {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page=1">&Lang;</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lang;</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                    {% endif %}
+                    <li class="page-item active" aria-current="page">
+                      <a class="page-link" href="#">{{ page_obj.number }}</a>
+                    </li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rang;</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&Rang;</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+          </div>
+          {% endif %}
+          <!-- End Pagination section -->
+        </div>
+
+      <!-- End Available Categories & Sub-category -->

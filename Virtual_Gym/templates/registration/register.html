@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %} <!-- This allows for us to be able to add CSS attributes to the DTL elements -->
+
+<!-- Making such that the title changes on the tab in ref to the base page -->
+{% block title%}
+Register
+{% endblock %}
+
+{% block content %}
+    <h1>Register...</h1>
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-md-10 mx-auto col-lg-5">
+                <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="POST">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        {{ form.username|attr:"class:form-control"|attr:"placeholder:Username" }}
+                        {{ form.username.label_tag  }}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.password1|attr:"class:form-control"|attr:"placeholder:Password" }}
+                        {{ form.password1.label_tag }}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.password2|attr:"class:form-control"|attr:"placeholder:Password confirmation" }}
+                        {{ form.password2.label_tag }}
+                    </div>
+                    <!-- <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                    </div> -->
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+                    <hr class="my-4">
+                    <small class="text-body-secondary">
+                        <ul>
+                            <li>Your password can't be too similar to your other personal information.</li>
+                            <li>Your password must contain at least 8 characters.</li>
+                            <li>Your password can't be a commonly used password.</li>
+                            <li>Your password can't be entirely numeric.Your password can't be entirely numeric.</li>
+                        </ul>
+                    </small>
+                </form>
+            </div>
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Vertically centered hero sign-up form</h1>
+                <p class="col-lg-10 fs-4">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+            </div>
+        </div>
+    </div>
+    </main>
+<ul>
+    <li>Your password can't be too similar to your other personal information.</li>
+    <li>Your password must contain at least 8 characters.</li>
+    <li>Your password can't be a commonly used password.</li>
+    <li>Your password can't be entirely numeric.Your password can't be entirely numeric.</li>
+</ul>
+{% endblock %}
