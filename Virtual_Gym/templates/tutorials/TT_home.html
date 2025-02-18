@@ -23,7 +23,17 @@
                   <div class="card cardbox">
                     <div class="card-body">
                       <h5 class="card-title">All Categories</h5>
-                      <p class="card-text">Access all categories</p>
+                      <p class="card-text ttcategory">Access all categories</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col">
+                <a href="{% url 'tutorials:ttutorial_all_combo' %}" style="text-decoration: none;">
+                  <div class="card cardbox">
+                    <div class="card-body">
+                      <h5 class="card-title">Combos</h5>
+                      <p class="card-text ttcategory">Access all combos</p>
                     </div>
                   </div>
                 </a>
@@ -34,7 +44,7 @@
                   <div class="card cardbox">
                     <div class="card-body">
                       <h5 class="card-title">{{category.name}}</h5>
-                      <p class="card-text">{{category.description}}</p>
+                      <p class="card-text ttcategory">{{category.description | slice:1000 }}</p>
                     </div>
                   </div>
                 </a>

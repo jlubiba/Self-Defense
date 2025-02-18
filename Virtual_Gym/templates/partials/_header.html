@@ -38,7 +38,7 @@
           <li>
             <!-- The format to allow logout to work well. -->
             <a class="dropdown-item">
-              <form action="#" method="POST">
+              <form action="{% url 'logout' %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" class="nav-link" value="Sign out"></input>
               </form>
@@ -48,9 +48,9 @@
       </div>
       {% else %}
       <div class="text-end">
-        <a href="#">
+        <a href="{% url 'login' %}">
             <button type="button" class="btn btn-outline-light me-2">Login</button></a>
-        <a href="#">
+        <a href="{% url 'users:register' %}">
             <button type="button" class="btn btn-warning">Register</button>
         </a>
       </div>
@@ -64,9 +64,7 @@
 <div class="container bg-body-tertiary">
     <header class="d-flex justify-content-center py-3">
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 text-secondary">Feature home</a></li>
-        <li><a href="#" class="nav-link px-2 text-secondary">Add post</a></li>
-        <li><a href="#" class="nav-link px-2 text-secondary">Add category</a></li>
+        <li><a href="{% url 'tutorials:home' %}" class="nav-link px-2 text-secondary">Feature home</a></li>
         {% if category_list%}
           <!-- The category list -->
           <li class="nav-item dropdown">
@@ -75,7 +73,7 @@
             </a>
             <ul class="dropdown-menu">
               {% for category in category_list %}
-                <li><a class="dropdown-item text-secondary" href="#">{{category}}</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:tttutorial_single_category' category.pk %}">{{category}}</a></li>
               {% endfor %}
             </ul>
           </li>
@@ -84,6 +82,23 @@
           <a class="nav-link text-secondary" href="#">Categories</a>
         </li>
         {% endif %}
+        <!-- The Adding tutorial Elements -->
+      {% for group in user.groups.all%}
+        {% if "Blog manager" or "Manager" in group.name %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Add tutorial elements
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_category' %}">Add category</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_subcategory' %}">Add sub-category</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_technique' %}">Add technique</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_combo' %}">Add combo</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      {% endfor %}
+
       </ul>
     </header>
   </div>

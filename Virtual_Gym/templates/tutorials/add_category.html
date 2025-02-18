@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row justify-content-evenly">
+        <div class="col-4">
+            <h1>Add category</h1><br>
+            <form method="POST">
+                {% csrf_token %}
+                {{form.media}}
+                {{form.as_p | safe }}
+                <button class="btn btn-secondary" name="add_category">Add Category</button>
+            </form>
+        </div>
+        <div class="col-4">
+            <h1>Categories:</h1><br>
+            {% for item in element_list %}
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action">
+                    <a class="dropdown-item wrap-boxes" href="{% url 'tutorials:tttutorial_single_category' item.pk %}">{{item.name}}
+            
+                <!-- Filters this information only for people in the manager group. -->
+                {% for group in user.groups.all%}
+                    {% if "Blog manager" or "Manager" in group.name %}
+                    <small>- <a href="#">Edit</a> <a href="#">Delete</a></small>
+                    {% endif %}
+                {% endfor %}
+                    </a>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+      <script>
+        // Fetching current user id and placing it on the form
+        let user_id = "{{user.id}}";
+        author_input = document.getElementById('author').value = user_id;
+      </script>
+{% endblock content %}

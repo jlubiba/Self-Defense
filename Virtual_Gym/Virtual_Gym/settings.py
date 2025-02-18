@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "store.apps.StoreConfig",
     "django_extensions",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,6 @@ REST_FRAMRWORK = {
     "DEFAULT_PAGINATION_CLASS":'rest_framework.pagination.pageNumberPagination',
     "PAGE_SIZE":6,
 }
+
+LOGIN_REDIRECT_URL ='tutorials:tttutorial'
+LOGOUT_REDIRECT_URL ='tutorials:tttutorial'

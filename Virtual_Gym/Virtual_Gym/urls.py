@@ -20,8 +20,11 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("blog/", include("blog.urls", namespace="blog")),
-    path("users/", include("users.urls", namespace="users")),
     path("tutorials/", include("tutorials.urls", namespace="tutorials")),
     path("practice/", include("practice.urls", namespace="practice")),
     path("store/", include("store.urls", namespace="store")),
+    # The url below will handle our auth page using django, these two urls are necessary in this order
+    #Reference of LOGIN_REDIRECT_URL & LOGOUT_REDIRECT_URL in the settings.py is necessary to make 'login' and 'logout' easier just using those words in the links
+    path("users/", include("django.contrib.auth.urls")),
+    path("users/", include("users.urls")),
 ]

@@ -4,63 +4,8 @@
 {% block content %}  
     <main class="container">
         <br>
-      <!-- Available Categories & Sub-category -->
-      <div class="row g-5 justify-content-between">
-
-        <div class="col-md-4">
-              <div class="b-example-divider b-example-vr"></div>
-  
-              <div class="flex-shrink-0 p-3">
-                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-                  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                  <span class="fs-5 fw-semibold">Tutorial Categories</span>
-                </a>
-                <ul class="list-unstyled ps-0">
-                  {% for category in category_list %}
-                  <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                      <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-                        {{category.name}}
-                      </a>
-                    </button>
-                    {% for subcategory in category.subcategories.all %}
-                      <div class="collapse show" id="home-collapse">
-                        <ul class="btn-toggle-nav fw-normal pb-1 small">
-                          <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
-                        </ul>
-                      </div>
-                    {% endfor %}
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-              <br>
-                    
-          <!-- Pagination section -->
-          
-          <div class="pagination">
-              <nav aria-label="...">
-                  <ul class="pagination">
-                      
-                    <li class="page-item active" aria-current="page">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    
-                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="?page=2">&rang;</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="?page=3">&Rang;</a>
-                    </li>
-                    
-                  </ul>
-                </nav>
-          </div>
-          <!-- End Pagination section -->
-        </div>
-
-      <!-- End Available Categories & Sub-category -->
+        <div class="row g-5 justify-content-between">
+        {% include 'tutorials/_tut_side_cat.html' %}
          
 
         <!-- Categories & Sub-category -->         

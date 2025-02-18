@@ -3,11 +3,31 @@ from .models import *
 import bleach
 from django.forms import Textarea
 
+category_options = Category.objects.all().values_list('name', 'name') # This returns an obaject with a list a queryset
+subcategory_options = SubCategory.objects.all().values_list('name', 'name') # This returns an obaject with a list a queryset
+
+# Turning the 'category_options' queryset into a python list to use for choices
+category_options_list = []
+for item in category_options:
+    category_options_list.append(item)
+# Turning the 'subcategory_options' queryset into a python list to use for choices
+subcategory_options_list = []
+for item in category_options:
+    subcategory_options_list.append(item)
+
 class categoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = "__all__"
         exclude = ("slug",)
+        
+        #Styling the fields of the form with bootsrap
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'description': forms.Textarea(attrs={'class': 'form-control col-md-4', 'rows':4},),
+            'added_by': forms.TextInput(attrs={'class': 'form-control col-md-4', 'value':'', 'id':'author', 'type':'hidden'}),
+            # 'added_by': forms.Select(attrs={'class': 'form-control col-md-4', 'value':'', 'id':'author', 'type':'hidden'}),
+            }
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -43,6 +63,15 @@ class subCategoryForm(forms.ModelForm):
         model = SubCategory
         fields = "__all__"
         exclude = ("slug",)
+        
+        #Styling the fields of the form with bootsrap
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'description': forms.TextInput(attrs={'class': 'form-control col-md-4', 'rows':4},),
+            'proper_execution': forms.Textarea(attrs={'class': 'form-control col-md-4', 'rows':4},),
+            'added_by': forms.TextInput(attrs={'class': 'form-control col-md-4', 'value':'', 'id':'author', 'type':'hidden'}),
+            'category': forms.Select(attrs={'class': 'form-control col-md-4'}, choices = category_options),
+        }
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
@@ -84,8 +113,17 @@ class techniqueForm(forms.ModelForm):
         model = Technique
         fields = "__all__"
         exclude = ("slug",)
+        
+        #Styling the fields of the form with bootsrap
         widgets = {
-            "application": Textarea(attrs={"col":80, "row":20}),
+            'name': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'body_level': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'action_types': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'difficulty_level': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'application': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'steps': forms.Textarea(attrs={'class': 'form-control col-md-4',},),
+            'sub_category': forms.Select(attrs={'class': 'form-control col-md-4'}),
+            'target': forms.Select(attrs={'class': 'form-check form-check-inline col-md-4',},),
         }
     
     def validate(self, attrs):
@@ -112,6 +150,17 @@ class comboForm(forms.ModelForm):
         model = Combo
         fields = "__all__"
         exclude = ("slug",)
+        
+        #Styling the fields of the form with bootsrap
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'body_level': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'action_types': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'difficulty_level': forms.Select(attrs={'class': 'form-control col-md-4'},),
+            'description': forms.TextInput(attrs={'class': 'form-control col-md-4'},),
+            'technique': forms.Select(attrs={'class': 'form-check form-check-inline col-md-4',},),
+            'target': forms.Select(attrs={'class': 'form-check form-check-inline col-md-4',},),
+        }
     
     def validate(self, attrs):
         attrs['slug'] = bleach.clean(attrs['slug'])
