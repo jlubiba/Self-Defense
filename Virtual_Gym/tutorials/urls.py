@@ -11,7 +11,6 @@ urlpatterns = [
     path("tttutorial/category/<int:pk>", views.SingleCategoryTTutorial.as_view(), name="tttutorial_single_category"),
     path("tttutorial/categories", views.AllCategoryTTutorial.as_view(), name="ttutorial_all_category"),
     path("tttutorial/category/subcategory/<int:pk>", views.SingleSubCategoryTTutorial.as_view(), name="tttutorial_single_subcategory"),
-    path("tttutorial/category/subcategories/<int:pk>", views.SubCategoriesTTutorial.as_view(), name="tttutorial_many_subcategory"),
     path("tttutorial/technique/<int:pk>", views.SingleTechniqueTTutorial.as_view(), name="tttutorial_technique"),
     path('tttutorial/add-category', views.AddCategoryView.as_view(), name='add_category'),
     path("tttutorial/combo/<int:pk>", views.SingleComboTTutorial.as_view(), name="tttutorial_combo"),
@@ -21,6 +20,7 @@ urlpatterns = [
     path('tttutorial/add-combo', views.AddComboView.as_view(), name='add_combo'),
     path("test", views.test, name="test"),
     path("ttest", views.ttest, name="ttest"),
+    path("vtest/<int:pk>", views.vtest.as_view(), name="vtest"),
     path("technique", views.TechniqueGenerator, name="technique"),
 ]
 

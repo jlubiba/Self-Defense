@@ -14,7 +14,12 @@ from .forms import *
 def index(request):
     return render(request, 'tutorials/tutorial_home.html', {})
 def ttest(request):
-    return render(request, 'tutorials/testx.html', {})
+    category_list = Category.objects.all()
+    context = {
+        'category_list': category_list,
+    }
+    return render(request, 'tutorials/testza.html', context)
+
 @api_view(['GET'])
 def index00(request):
     items = Technique.objects.select_related('sub_category').prefetch_related('target').all()
@@ -236,20 +241,6 @@ class SingleCategoryTTutorial(DetailView):
         context['category_list'] = category_list
         return context
     
-
-class SubCategoriesTTutorial(DetailView):
-    model = Category
-    template_name = 'tutorials/TT_subcats.html'
-    paginate_by = 5
-    
-    def get_context_data(self, **kwargs):
-        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
-        subcategories_list = SubCategory.objects.filter(category__id=self.kwargs['pk'])
-        context = super(SubCategoriesTTutorial, self).get_context_data(**kwargs)
-        context['subcategories_list'] = subcategories_list
-        context['category_list'] = category_list
-        return context
-    
 class SingleSubCategoryTTutorial(DetailView):
     model = SubCategory
     template_name = 'tutorials/TT_single_subcat.html'
@@ -288,13 +279,20 @@ class SingleComboTTutorial(DetailView):
         context = super(SingleComboTTutorial, self).get_context_data(**kwargs)
         context['category_list'] = category_list
         return context
-    
+
+class  vtest(DetailView):
+    model = VideoTutorial
+    template_name = 'tutorials/testzb.html'
+    category_list = Category.objects.all()
+    video_tutorial_list = VideoTutorial.objects.all()
+    context_object_name = 'video_tutorial_list'
 
 class AllComboTTutorial(ListView):
     model = Combo
     template_name = 'tutorials/TT_all_combo.html'
     context_object_name = 'combo_list'
     paginate_by = 6
+    ordering = ['-difficulty_level']
     
     def get_context_data(self, **kwargs):
         category_list = Category.objects.all() # Fetches the subcategory for the current category's id
