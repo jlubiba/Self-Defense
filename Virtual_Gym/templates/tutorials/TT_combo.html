@@ -29,18 +29,13 @@
                 </div>
               </div>
               </a><br>
-
-              <h5>Steps:</h5>
-              <p>
-                {{combo.steps | safe}}
-              </p><br><br>
               
-              <h5>Techniques areas:</h5>
-              {% for area in combo.technique.all %}
+              <h5>Techniques:</h5>
+              {% for technique in combo.technique.all %}
                 <ul>
-                    <li> <strong>{{area.name}}</strong> : {{area.reason}}</li>
+                    <li> <strong><a href="{% url 'tutorials:tttutorial_technique' technique.pk %}">{{technique.name}}</a></strong> : {{technique.application }}</li>
                 </ul>
-              {% endfor %}
+              {% endfor %} <br>
             
               <h5>Target areas:</h5>
               {% for area in combo.target.all %}
@@ -58,55 +53,8 @@
             <div class="position-sticky" style="top: 2rem;">
               <div class="p-4 mb-3 bg-body-tertiary rounded">
                 <h4 class="fst-italic">About</h4>
-                <p class="mb-0"> The <strong>{{technique}}</strong> is: {{technique.application}}</p>
+                <p class="mb-0"> The <strong>{{combo}}</strong>: {{combo.description}}</p>
               </div>
-
-            <!-- Section for recent posts -->
-
-              <div>
-                <h4 class="fst-italic">Recent posts</h4>
-                <ul class="list-unstyled">
-                    
-                  <li>
-                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/19">
-                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-                      <div class="col-lg-8">
-                        <h6 class="mb-0">Blah blah b;ah</h6>
-                        <small class="text-body-secondary">Feb. 2, 2025</small>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/20">
-                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-                      <div class="col-lg-8">
-                        <h6 class="mb-0">The one with the image of &quot;The beautiful boy&quot; poster.</h6>
-                        <small class="text-body-secondary">Feb. 2, 2025</small>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/17">
-                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-                      <div class="col-lg-8">
-                        <h6 class="mb-0">Lorem Ipsum</h6>
-                        <small class="text-body-secondary">Feb. 1, 2025</small>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="/article/15">
-                      <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-                      <div class="col-lg-8">
-                        <h6 class="mb-0">Two</h6>
-                        <small class="text-body-secondary">Jan. 27, 2025</small>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            
-            <!-- End Section for recent posts -->
 
             </div>
           </div>

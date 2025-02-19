@@ -28,6 +28,13 @@ class Moves(AddedElement):
         abstract = True
 
 # Models for the app
+class Author(AddedElement):
+    youtube_url = models.URLField()
+    twitter_url = models.URLField()
+    personal_url = models.URLField()
+    added_by = models.ForeignKey(User, on_delete=models.PROTECT,
+                                related_name='author')
+
 class Category(AddedElement):
     description = models.CharField(max_length=250)
     added_by= models.ForeignKey(User, on_delete=models.PROTECT,
@@ -143,10 +150,10 @@ class TextTutorial(AddedElement):
         return self.name
 
 class VideoTutorial(AddedElement):
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="videos")
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="video_tutorials")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    image = models.ImageField(upload_to='static/images/tutorials')
-    url = models.URLField()
+    image = models.ImageField(upload_to='static/images/tutorials', null=True, blank=True)
+    iframe = models.TextField(default='Iframe here')
 
     def __str__(self):
         return self.name
