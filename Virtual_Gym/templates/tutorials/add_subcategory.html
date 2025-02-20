@@ -16,40 +16,25 @@
                 </form>
             </div>
             <!-- Available Categories & Sub-category -->
-            <div class="col-md-6">
-                <div class="flex-shrink-0 p-3">
-                <a href="{% url 'tutorials:ttutorial_all_category' %}" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-                    <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                    <span class="fs-5 fw-semibold">Tutorial Categories</span>
-                </a>
-                <ul class="list-unstyled ps-0">
-                    <li class="mb-1">
-                    <button class="btn d-inline-flex align-items-center rounded border-0  fw-semibold">
-                        <a href="{% url 'tutorials:ttutorial_all_combo'%}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-                        Combos
-                        </a>
-                    </button>
-                    </li>
-                    {% for category in category_list %}
-                    <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-start rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                        <a href="{% url 'tutorials:tttutorial_single_category' category.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-                        {{category.name}}
-                        </a>
-                    </button>
-                    {% for subcategory in category.subcategories.all %}
-                        <div class="collapse show" id="home-collapse">
-                        <ul class="btn-toggle-nav fw-normal pb-1 small">
-                            <li><a href="{% url 'tutorials:tttutorial_single_subcategory' subcategory.pk %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{subcategory.name}}</a></li>
-                        </ul>
-                        </div>
+           
+            <div class="col-4">
+                <h1>Subcategories:</h1><br>
+                    {% for item in element_list %}
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action">
+                            <a class="dropdown-item" href="{% url 'tutorials:tttutorial_technique' item.pk %}">{{item.name}}        
+                        <!-- Filters this information only for people in the manager group. -->
+                        {% for group in user.groups.all%}
+                            {% if "Blog manager" or "Manager" in group.name %}
+                            <small>- <a href="{% url 'tutorials:update_subcategory' item.pk %}">Edit</a> <a href="{% url 'tutorials:delete_subcategory' item.pk %}">Delete</a></small>
+                            {% endif %}
+                        {% endfor %}
+                            </a>
+                            </button>
+                        </div> <br>
                     {% endfor %}
-                    </li>
-                    {% endfor %}
-                </ul>
                 </div>
-                <br>
-        </div>
+            </div>
         </div>
         <script>
             // Fetching current user id and placing it on the form

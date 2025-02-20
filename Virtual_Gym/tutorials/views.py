@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -228,6 +229,11 @@ class WelcomeTTutorial(ListView):
     model = Category
     template_name = 'tutorials/TT_home.html'
     context_object_name = 'category_list'
+    
+class WelcomeVTutorial(ListView):
+    model = Category
+    template_name = 'tutorials/VT_home.html'
+    context_object_name = 'category_list'
 
 class SingleCategoryTTutorial(DetailView):
     model = Category
@@ -237,6 +243,18 @@ class SingleCategoryTTutorial(DetailView):
         current_sub_category = SubCategory.objects.filter(category__id=self.kwargs['pk'])  # Fetches the subcategory for the current category's id
         category_list = Category.objects.all() # Fetches the subcategory for the current category's id
         context = super(SingleCategoryTTutorial, self).get_context_data(**kwargs)
+        context['current_sub_category'] = current_sub_category
+        context['category_list'] = category_list
+        return context
+
+class SingleCategoryVTutorial(DetailView):
+    model = Category
+    template_name = 'tutorials/VT_single_cat.html'
+    
+    def get_context_data(self, **kwargs):
+        current_sub_category = SubCategory.objects.filter(category__id=self.kwargs['pk'])  # Fetches the subcategory for the current category's id
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleCategoryVTutorial, self).get_context_data(**kwargs)
         context['current_sub_category'] = current_sub_category
         context['category_list'] = category_list
         return context
@@ -252,6 +270,17 @@ class SingleSubCategoryTTutorial(DetailView):
         context['category_list'] = category_list
         return context
     
+class SingleSubCategoryVTutorial(DetailView):
+    model = SubCategory
+    template_name = 'tutorials/VT_single_subcat.html'
+    context_object_name = 'subcategory_list'
+    
+    def get_context_data(self, **kwargs):
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleSubCategoryVTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        return context
+    
     
 class SingleTechniqueTTutorial(DetailView):
     model = Technique
@@ -261,6 +290,18 @@ class SingleTechniqueTTutorial(DetailView):
         category_list = Category.objects.all() # Fetches the subcategory for the current category's id
         context = super(SingleTechniqueTTutorial, self).get_context_data(**kwargs)
         context['category_list'] = category_list
+        return context
+    
+class SingleTechniqueComboTTutorial(DetailView):
+    model = Technique
+    template_name = 'tutorials/TT_technique_combo.html'
+    
+    def get_context_data(self, **kwargs):
+        combo = Combo.objects.get(pk=self.kwargs.get('combo_pk')) # The combo's page pk
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(SingleTechniqueComboTTutorial, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        context['combo'] = combo
         return context
     
 
@@ -280,12 +321,41 @@ class SingleComboTTutorial(DetailView):
         context['category_list'] = category_list
         return context
 
-class  vtest(DetailView):
+class vtest(DetailView):
     model = VideoTutorial
     template_name = 'tutorials/testzb.html'
     category_list = Category.objects.all()
     video_tutorial_list = VideoTutorial.objects.all()
-    context_object_name = 'video_tutorial_list'
+    context_object_name = 'video_tutorial'
+    
+    def get_context_data(self, **kwargs):
+        sub_pk = SubCategory.objects.get(pk=self.kwargs.get('sub_pk'))
+        vpk = VideoTutorial.objects.get(id = self.kwargs['pk']).subcategory
+        technique_list = Technique.objects.filter(sub_category = vpk)[:4]
+        category_list = Category.objects.all() # Fetches the subcategory for the current category's id
+        context = super(vtest, self).get_context_data(**kwargs)
+        context['category_list'] = category_list
+        context['techniques'] = technique_list
+        context['sub_pk'] = sub_pk
+        return context
+
+
+def LikedVideoTT(request, pk):
+    video = get_object_or_404(VideoTutorial, id = request.POST.get('video_tutorial_id'))
+    liked = False
+    
+    if video.likes.filter(id=request.user.id).exists():
+        video.likes.remove(request.user)
+        liked = False
+    else:
+        video.likes.add(request.user)
+        liked = True
+    
+    return HttpResponseRedirect(reverse('tutorials:vtest', args=[str(pk)]))
+
+class AddCommentPostView(CreateView):
+    model = Comment
+    form_class = CommentForm
 
 class AllComboTTutorial(ListView):
     model = Combo
@@ -336,11 +406,11 @@ class AddSubategoryView(CreateView):
     template_name = 'tutorials/add_subcategory.html'
     
     def get_context_data(self, **kwargs):
-        category_list = SubCategory.objects.all()
+        subcategory_list = SubCategory.objects.all()
         category_list = Category.objects.all()
         context = super(AddSubategoryView, self).get_context_data(**kwargs)
         context['category_list'] = category_list
-        context['element_list'] = category_list
+        context['element_list'] = subcategory_list
         return context
     
 class AddTechniqueView(CreateView):
@@ -364,4 +434,95 @@ class AddComboView(CreateView):
         context = super(AddComboView, self).get_context_data(**kwargs)
         context['element_list'] = combo_list
         return context
+
+class UpdateCategoryView(UpdateView):
+    model = Category
+    form_class = categoryForm
+    template_name = 'tutorials/update_form.html'
     
+    def get_context_data(self, **kwargs):
+        element_type = 'category'
+        context = super(UpdateCategoryView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+    
+class UpdateSubCategoryView(UpdateView):
+    model = SubCategory
+    form_class = subCategoryForm
+    template_name = 'tutorials/update_form.html'
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'subcategory'
+        context = super(UpdateSubCategoryView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+    
+class UpdateComboView(UpdateView):
+    model = Combo
+    form_class = comboForm
+    template_name = 'tutorials/update_form.html'
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'combo'
+        context = super(UpdateComboView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+    
+class UpdateTechniqueView(UpdateView):
+    model = Technique
+    form_class = techniqueForm
+    template_name = 'tutorials/update_form.html'
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'combo'
+        context = super(UpdateTechniqueView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+
+class DeleteCategoryView(DeleteView):
+    model = Category
+    template_name = 'tutorials/delete_form.html'
+    context_object_name = 'element'
+    success_url = reverse_lazy('tutorials:add_category') # This is added to redirect to the chosen page with the DeleteView avoid the following error: "No URL to redirect to. Provide a success_url."
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'category'
+        context = super(DeleteCategoryView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+
+class DeleteSubCategoryView(DeleteView):
+    model = SubCategory
+    template_name = 'tutorials/delete_form.html'
+    context_object_name = 'element'
+    success_url = reverse_lazy('tutorials:add_subcategory')
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'subcategory'
+        context = super(DeleteSubCategoryView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+
+class DeleteComboView(DeleteView):
+    model = Combo
+    template_name = 'tutorials/delete_form.html'
+    context_object_name = 'element'
+    success_url = reverse_lazy('tutorials/tutorials:add_combo')
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'combo'
+        context = super(DeleteComboView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context
+
+class DeleteTechniqueView(DeleteView):
+    model = Technique
+    template_name = 'tutorials/delete_form.html'
+    context_object_name = 'element'
+    success_url = reverse_lazy('tutorials/tutorials:add_technique')
+    
+    def get_context_data(self, **kwargs):
+        element_type = 'technique'
+        context = super(DeleteTechniqueView, self).get_context_data(**kwargs)
+        context['element_type'] = element_type
+        return context

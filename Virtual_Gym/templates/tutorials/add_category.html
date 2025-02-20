@@ -22,12 +22,12 @@
                 <!-- Filters this information only for people in the manager group. -->
                 {% for group in user.groups.all%}
                     {% if "Blog manager" or "Manager" in group.name %}
-                    <small>- <a href="#">Edit</a> <a href="#">Delete</a></small>
+                    <small>- <a href="{% url 'tutorials:update_category' item.pk %}">Edit</a> <a href="{% url 'tutorials:delete_category' item.pk %}">Delete</a></small>
                     {% endif %}
                 {% endfor %}
                     </a>
                     </button>
-                </div>
+                </div> <br>
             {% endfor %}
         </div>
     </div>
