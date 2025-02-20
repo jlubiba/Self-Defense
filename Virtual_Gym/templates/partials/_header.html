@@ -8,7 +8,7 @@
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" data-bs-theme="dark">
         <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
         <li><a href="http://127.0.0.1:8002/" class="nav-link px-2 text-white">Blogs</a></li>
-        <li><a href="{% url 'tutorials:tttutorial' %}" class="nav-link px-2 text-white">Tutorials</a></li>
+        <li><a href="{% url 'tutorials:home' %}" class="nav-link px-2 text-white">Tutorials</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Practice</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Store</a></li>
       </ul>
@@ -56,9 +56,9 @@
 <div class="container bg-body-tertiary">
     <header class="d-flex justify-content-center py-3">
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'tutorials:home' %}" class="nav-link px-2 text-secondary">Feature home</a></li>
+        <li><a href="{% url 'tutorials:home' %}" class="nav-link px-2 text-secondary">Tutorials home</a></li>
         <li><a href="{% url 'tutorials:tttutorial' %}" class="nav-link px-2 text-secondary">Written tutorial</a></li>
-        <li><a href="#" class="nav-link px-2 text-secondary disabled">Video tutorial</a></li>
+        <li><a href="{% url 'tutorials:vtutorial' %}" class="nav-link px-2 text-secondary">Video tutorial</a></li>
         {% if category_list%}
           <!-- The category list -->
           <li class="nav-item dropdown">
@@ -81,13 +81,13 @@
         {% if "Blog manager" or "Manager" in group.name %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Add tutorial elements
+              Add/Edit Tutorial elements
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_category' %}">Add category</a></li>
-                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_subcategory' %}">Add sub-category</a></li>
-                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_technique' %}">Add technique</a></li>
-                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_combo' %}">Add combo</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_category' %}">Categories</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_subcategory' %}">Sub-categories</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_technique' %}">Techniques</a></li>
+                <li><a class="dropdown-item text-secondary" href="{% url 'tutorials:add_combo' %}">Combos</a></li>
             </ul>
           </li>
         {% endif %}

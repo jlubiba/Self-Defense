@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Making such that the title changes on the tab in ref to the base page -->
+{% block title%}
+Edit tutorial element
+{% endblock %}
+
+{% block content %}
+    <h1>Update</h1><br>
+
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{form.media}}
+            {{form.as_p | safe }}
+
+            <button class="btn btn-secondary">Update</button>
+        </form>
+            
+        {% if element_type == 'category' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_category' %}" style="text-decoration: none; color: white;">Cancel Update</a></button>
+        {% elif element_type == 'subcategory' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_subcategory' %}" style="text-decoration: none; color: white;">Cancel Update</a></button>
+        {% elif element_type == 'combo' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_combo' %}" style="text-decoration: none; color: white;">Cancel Update</a></button>
+        {% elif element_type == 'technique' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_technique' %}" style="text-decoration: none; color: white;">Cancel Update</a></button>
+        {% endif %}
+    {% else %}
+        <p>You are not allowed here. Login to access this page.</p>
+    {% endif %}
+    
+{% endblock %}

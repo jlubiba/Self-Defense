@@ -150,10 +150,14 @@ class TextTutorial(AddedElement):
         return self.name
 
 class VideoTutorial(AddedElement):
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="video_tutorials")
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="videos")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='static/images/tutorials', null=True, blank=True)
     iframe = models.TextField(default='Iframe here')
+    likes = models.ManyToManyField(User, related_name='video_likes')
+    
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.name
@@ -161,3 +165,21 @@ class VideoTutorial(AddedElement):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(VideoTutorial, self).save(*args, **kwargs)
+    
+    # This method allows for us to have a url to which the page can go to after the form submission to avoid the error below
+    # "No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model."
+    def get_absolute_url(self):
+        return reverse('tutorials:vtest', args=[str(self.id)]) # The arg refers to the article that was just created's Id as the page to load to. A url without arguments wouldn't need it
+        # return reverse('blog: home') # The arg refers to the article that was just created's Id as the page to load to. A url without arguments wouldn't need it
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(VideoTutorial, related_name='comments', on_delete=models.CASCADE)
+    body = models.TextField(verbose_name='Comment...')
+    post_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.video.name} by {self.author.username}'
+    
+    def get_absolute_url(self):
+        return reverse('tutorials:vtest', args=[str(self.video.pk)]) 

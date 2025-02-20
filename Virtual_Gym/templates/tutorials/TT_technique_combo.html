@@ -8,37 +8,36 @@
         {% include 'tutorials/_tut_side_cat.html' %}
          
 
-        <!-- Categories & Sub-category -->         
+        <!-- Categories & Sub-category -->      
           <div class="col-md-5">
+            <a class="btn btn-primary" href="{% url 'tutorials:tttutorial_combo' combo.pk  %}" role="button">&#8678; {{combo.name}}</a> <br>
                 <h2 class="d-flex justify-content-center">
-                  {{combo}}
+                  {{technique}}
               </h2>
               <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
               <div class="d-flex w-100 align-items-center justify-content-around">
                 <div class="mb-1">
                   <strong>Action types:</strong>
-                  <p><em>{{combo.action_types | title}}</em></p>
+                  <p><em>{{technique.action_types | title}}</em></p>
                 </div>
                 <div class="mb-1">
                   <strong>Body level:</strong><br>
-                  <p><em>{{combo.body_level | title}}</em></p>
+                  <p><em>{{technique.body_level | title}}</em></p>
                 </div>
                 <div class="mb-1">
                   <strong>Difficulty level:</strong><br>
-                  <p><em>{{combo.difficulty_level | title}}</em></p>
+                  <p><em>{{technique.difficulty_level | title}}</em></p>
                 </div>
               </div>
               </a><br>
+
+              <h5>Steps:</h5>
+              <p>
+                {{technique.steps | safe}}
+              </p><br>
               
-              <h5>Techniques:</h5>
-              {% for technique in combo.technique.all %}
-                <ul>
-                    <li> <strong><a href="{% url 'tutorials:tttutorial_combo_technique' combo_pk=combo.pk pk=technique.pk %}">{{technique.name}}</a></strong> : {{technique.application }}</li>
-                </ul>
-              {% endfor %} <br>
-            
               <h5>Target areas:</h5>
-              {% for area in combo.target.all %}
+              {% for area in technique.target.all %}
                 <ul>
                     <li> <strong>{{area.name}}</strong> : {{area.reason}}</li>
                 </ul>
@@ -53,7 +52,7 @@
             <div class="position-sticky" style="top: 2rem;">
               <div class="p-4 mb-3 bg-body-tertiary rounded">
                 <h4 class="fst-italic">About</h4>
-                <p class="mb-0"> The <strong>{{combo}}</strong>: {{combo.description}}</p>
+                <p class="mb-0"> The <strong>{{technique}}</strong> is: {{technique.application}}</p>
               </div>
 
             </div>

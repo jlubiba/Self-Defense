@@ -216,3 +216,15 @@ class videoTutorialForm(forms.ModelForm):
             return forms.ValidationError('Description should be at least 5 character long.')
         
         return super().validate(attrs)
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'video', 'body')
+        
+        #Styling the fields of the form with bootsrap
+        widgets = {
+            'video': forms.TextInput(attrs={'class': 'form-control', 'value':'{{video_tutorial.id}}', 'id':'video_tutorial', 'type':'hidden'},),
+            'author': forms.TextInput(attrs={'class': 'form-control', 'value':'{{user.id}}', 'id':'author', 'type':'hidden'}),
+            'body': forms.TextInput(attrs={'id':'comments', 'placeholder':'Enter comment...'}),
+        }

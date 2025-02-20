@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Making such that the title changes on the tab in ref to the base page -->
+{% block title%}
+Delete - {{element.name}}
+{% endblock %}
+
+{% block content %}
+    <h1>Deleting: {{element.name}}</h1><br>
+
+    {% if user.is_authenticated %}
+    <form method="POST">
+        {% csrf_token %}
+        <strong>Are you sure you want to delete: {{element.name}}?</strong> <br><br>
+    </form>
+    <p>
+        <button class="btn btn-secondary">Delete</button>
+    
+        {% if element_type == 'category' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_category' %}" style="text-decoration: none; color: white;">Cancel</a></button>
+        {% elif element_type == 'subcategory' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_subcategory' %}" style="text-decoration: none; color: white;">Cancel</a></button>
+        {% elif element_type == 'combo' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_combo' %}" style="text-decoration: none; color: white;">Cancel</a></button>
+        {% elif element_type == 'technique' %}
+            <button class="btn btn-danger"><a href="{% url 'tutorials:add_technique' %}" style="text-decoration: none; color: white;">Cancel</a></button>
+        {% endif %}
+    </p>
+
+    {% else %}
+    <p>You are not allowed here. Login to access this page.</p>
+    {% endif %}
+
+{% endblock %}
